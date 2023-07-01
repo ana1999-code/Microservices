@@ -1,38 +1,74 @@
 services:
-  postgres:
-    container_name: postgres
+  postgres-customer:
+    container_name: postgres-customer
     image: postgres
     environment:
       POSTGRES_USER: customer
       POSTGRES_PASSWORD: customer
       PGDATA: /data/postgres
     volumes:
-      - postgres:/data/postgres
+      - postgres-customer:/data/postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
-      - postgres
+      - postgres-customer
     restart: unless-stopped
 
-  pgadmin:
-    container_name: pgadmin
+  pgadmin-customer:
+    container_name: pgadmin-customer
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - pgadmin:/var/lib/pgadmin
+      - pgadmin-customer:/var/lib/pgadmin
     ports:
-      - "5050:80"
+      - "5051:80"
     networks:
-      - postgres
+      - postgres-customer
     restart: unless-stopped
 
+  postgres-fraud:
+    container_name: postgres-fraud
+    image: postgres
+    environment:
+      POSTGRES_USER: fraud
+      POSTGRES_PASSWORD: fraud
+      PGDATA: /data/postgres
+    volumes:
+      - postgres-fraud:/data/postgres
+    ports:
+      - "5434:5432"
+    networks:
+      - postgres-fraud
+    restart: unless-stopped
+
+  pgadmin-fraud:
+    container_name: pgadmin-fraud
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin-fraud:/var/lib/pgadmin
+    ports:
+      - "5052:80"
+    networks:
+      - postgres-fraud
+    restart: unless-stopped
+
+
+
 networks:
-  postgres:
+  postgres-customer:
+    driver: bridge
+  postgres-fraud:
     driver: bridge
 
 volumes:
-  postgres:
-  pgadmin:
+  postgres-customer:
+  pgadmin-customer:
+  postgres-fraud:
+  pgadmin-fraud:
