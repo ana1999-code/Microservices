@@ -1,74 +1,38 @@
 services:
-  postgres-customer:
-    container_name: postgres-customer
+  postgres:
+    container_name: postgres
     image: postgres
     environment:
-      POSTGRES_USER: customer
-      POSTGRES_PASSWORD: customer
+      POSTGRES_USER: microservice_user
+      POSTGRES_PASSWORD: microservice
       PGDATA: /data/postgres
     volumes:
-      - postgres-customer:/data/postgres
+      - postgres_microservice:/data/postgres
     ports:
-      - "5433:5432"
+      - "5432:5432"
     networks:
-      - postgres-customer
+      - postgres
     restart: unless-stopped
 
   pgadmin-customer:
-    container_name: pgadmin-customer
+    container_name: pgadmin
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - pgadmin-customer:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
     ports:
-      - "5051:80"
+      - "5050:80"
     networks:
-      - postgres-customer
+      - postgres
     restart: unless-stopped
-
-  postgres-fraud:
-    container_name: postgres-fraud
-    image: postgres
-    environment:
-      POSTGRES_USER: fraud
-      POSTGRES_PASSWORD: fraud
-      PGDATA: /data/postgres
-    volumes:
-      - postgres-fraud:/data/postgres
-    ports:
-      - "5434:5432"
-    networks:
-      - postgres-fraud
-    restart: unless-stopped
-
-  pgadmin-fraud:
-    container_name: pgadmin-fraud
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin-fraud:/var/lib/pgadmin
-    ports:
-      - "5052:80"
-    networks:
-      - postgres-fraud
-    restart: unless-stopped
-
-
 
 networks:
-  postgres-customer:
-    driver: bridge
-  postgres-fraud:
+  postgres:
     driver: bridge
 
 volumes:
-  postgres-customer:
-  pgadmin-customer:
-  postgres-fraud:
-  pgadmin-fraud:
+  postgres_microservice:
+  pgadmin:

@@ -4,9 +4,9 @@ spring:
   application:
     name: fraud
   datasource:
-    password: fraud
-    url: jdbc:postgresql://localhost:5434/fraud
-    username: fraud
+    password: microservice
+    url: jdbc:postgresql://localhost:5432/fraud
+    username: microservice_user
   jpa:
     hibernate:
       ddl-auto: create-drop
