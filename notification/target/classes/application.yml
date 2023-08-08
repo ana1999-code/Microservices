@@ -1,13 +1,13 @@
 server:
-  port: 8082
+  port: 8083
 
 spring:
   application:
-    name: fraud
+    name: notification
   datasource:
-    password: microservice
-    url: jdbc:postgresql://localhost:5432/fraud
     username: microservice_user
+    password: microservice
+    url: jdbc:postgresql://localhost:5432/notification
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -23,3 +23,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+

@@ -1,5 +1,5 @@
 spring:
-  appliocation:
+  application:
     name: eureka-server
 
 server:
